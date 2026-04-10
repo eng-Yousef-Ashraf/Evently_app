@@ -8,6 +8,7 @@ import 'package:evently/utils/evently_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/evently_size.dart';
 import '../../utils/evently_styles.dart';
 class HomeScreen extends StatefulWidget {
@@ -22,6 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
     const FavouriteTab(),
     const ProfileTab(),
   ];
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      context.read<UserProvider>().initUser();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);

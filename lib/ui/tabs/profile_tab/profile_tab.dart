@@ -1,9 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/utils/evently_assets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import '../../../providers/event_provider.dart';
 import '../../../providers/language_provider.dart';
 import '../../../providers/theme_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../utils/evently_routes.dart';
 import '../../../utils/evently_size.dart';
 class ProfileTab extends StatelessWidget {
@@ -12,6 +16,13 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var langProvider=Provider.of<LanguageProvider>(context);
     var themeProvider=Provider.of<ThemeProvider>(context);
+    var userProvider=Provider.of<UserProvider>(context);
+    var eventProvider=Provider.of<EventProvider>(context);
+    if(userProvider.currentUser==null){
+      return Center(child: CircularProgressIndicator(
+        color: themeProvider.themeMode==ThemeMode.light?EventlyColors.main_blue:EventlyColors.main_dark_blue,
+      ),);
+    }
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: context.height*0.05,
@@ -23,10 +34,10 @@ class ProfileTab extends StatelessWidget {
           CircleAvatar(backgroundImage: AssetImage(EventlyAssets.route),
           radius: 50,
           ),
-          Text('John Cena',
+          Text(userProvider.currentUser!.name,
           style: Theme.of(context).textTheme.bodyLarge,
           ),
-          Text('johncena.route@gmail.com',
+          Text(userProvider.currentUser!.email,
           style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(height: context.height*0.05,),
@@ -140,6 +151,9 @@ class ProfileTab extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: (){
+                      userProvider.currentUser = null;
+                      eventProvider.selectedIndex=0;
+                      signOut(context);
                       Navigator.of(context).pushReplacementNamed(EventlyRoutes.loginScreen);
                     },
                     icon:Icon( Icons.logout,
@@ -149,5 +163,10 @@ class ProfileTab extends StatelessWidget {
         ],
       ),
     );
+  }
+  Future<void> signOut(BuildContext context) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    await _auth.signOut();
+    await GoogleSignIn.instance.signOut();
   }
 }

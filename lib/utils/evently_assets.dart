@@ -23,7 +23,8 @@ class EventlyAssets {
   static String manager_disk='assets/images/manager-desk.png';
   static String dark_social='assets/images/dark_social-media.png';
   static String social='assets/images/social-media.png';
-
+  static String reset='assets/images/change-setting.png';
+  static String dark_reset='assets/images/dark_change-setting.png';
 }
 class EventlyColors{
   static const Color bg_color=Color(0xFFF4F7FF);

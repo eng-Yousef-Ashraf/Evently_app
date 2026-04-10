@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently/ui/tabs/home_tab/display_event_list.dart';
 import 'package:evently/utils/evently_resources.dart';
 import 'package:evently/utils/evently_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../providers/event_provider.dart';
 import '../../../providers/language_provider.dart';
 import '../../../providers/theme_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../utils/evently_assets.dart';
+import '../../../utils/evently_routes.dart';
 import '../../../utils/evently_size.dart';
 import '../../widgets/selected_unselected_style.dart';
 class HomeTab extends StatefulWidget {
@@ -14,11 +18,17 @@ class HomeTab extends StatefulWidget {
   State<HomeTab> createState() => _HomeTabState();
 }
 class _HomeTabState extends State<HomeTab> {
-  int selectedIndex=0;
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);
     var langProvider=Provider.of<LanguageProvider>(context);
+    var eventProvider=Provider.of<EventProvider>(context);
+    var userProvider=Provider.of<UserProvider>(context);
+    if(userProvider.currentUser==null){
+      return Center(child: CircularProgressIndicator(
+        color: themeProvider.themeMode==ThemeMode.light?EventlyColors.main_blue:EventlyColors.main_dark_blue,
+      ),);
+    }
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: context.width*0.04
@@ -34,7 +44,7 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   Text('welcome_back'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium,),
-                  Text('john Cena',
+                  Text(userProvider.currentUser!.name,
                   style: Theme.of(context).textTheme.bodyLarge,),
                 ],
               ),
@@ -65,9 +75,7 @@ class _HomeTabState extends State<HomeTab> {
                 itemBuilder: (context, index) {
            return GestureDetector(
                 onTap: (){
-                  selectedIndex=index;
-                  setState(() {
-                  });
+                  eventProvider.updateIndex(index);
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(
@@ -76,14 +84,14 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(16)),
-                    color:selectedItem(index, themeProvider,selectedIndex)
+                    color:selectedItem(index, themeProvider,eventProvider.selectedIndex)
                   ),
                   child: Row(
                     spacing: context.width*0.02,
                     children: [
-                     selectedIcon(index, themeProvider,selectedIndex),
+                     selectedIcon(index, themeProvider,eventProvider.selectedIndex),
                       Text(EventlyResources.TexthomeListView[index].tr(),
-                      style: selectedText(index, themeProvider, selectedIndex))
+                      style: selectedText(index, themeProvider, eventProvider.selectedIndex))
                     ],
                   ),
                 ),
@@ -95,7 +103,7 @@ class _HomeTabState extends State<HomeTab> {
                 , itemCount: EventlyResources.TexthomeListView.length),
           ),
           SizedBox(height: context.height*0.05,),
-          Expanded(child: EventlyResources.listViewItemList[selectedIndex])
+          Expanded(child: DisplayEventList(selectedIndex: eventProvider.selectedIndex,))
         ],
       ),
     );

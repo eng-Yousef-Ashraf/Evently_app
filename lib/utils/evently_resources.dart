@@ -1,16 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently/utils/evently_assets.dart';
 import 'package:flutter/material.dart';
-import '../ui/tabs/home_tab/pages/all_page.dart';
-import '../ui/tabs/home_tab/pages/birthday_page.dart';
-import '../ui/tabs/home_tab/pages/exhibition_page.dart';
-import '../ui/tabs/home_tab/pages/meeting_page.dart';
-import '../ui/tabs/home_tab/pages/sport_page.dart';
 class EventlyResources {
-static List<String> TexthomeListView=['all','sport','birthday','meeting','exhibition'];
+static List<String> TexthomeListView=['all','book_club','sport','birthday','meeting','exhibition'];
 static List<String> AddEventListView=['book_club','sport','birthday','meeting','exhibition'];
   static List<Widget> SelectedhomeListViewIcons=[
     Icon(Icons.all_inclusive_outlined,color: EventlyColors.white_color,size: 30),
+    Icon(Icons.menu_book_outlined,color: EventlyColors.white_color,size: 30),
     Icon(Icons.directions_bike_outlined,color: EventlyColors.white_color,size: 30),
     Icon(Icons.cake_outlined,color: EventlyColors.white_color,size: 30),
     Icon(Icons.meeting_room_outlined,color: EventlyColors.white_color,size: 30),
@@ -25,6 +21,7 @@ static List<Widget> SelectedAddEventListViewIcons=[
 ];
   static List<Widget> UnselectedhomeListViewIcons=[
     Icon(Icons.all_inclusive_outlined,color: EventlyColors.main_blue,size: 30),
+    Icon(Icons.menu_book_outlined,color: EventlyColors.main_blue,size: 30),
     Icon(Icons.directions_bike_outlined,color: EventlyColors.main_blue,size: 30),
     Icon(Icons.cake_outlined,color: EventlyColors.main_blue,size: 30),
     Icon(Icons.meeting_room_outlined,color: EventlyColors.main_blue,size: 30),
@@ -39,6 +36,7 @@ static List<Widget> UnselectedAddEventListViewIcons=[
 ];
   static List<Widget> UnselectedDarkhomeListViewIcons=[
     Icon(Icons.all_inclusive_outlined,color: EventlyColors.main_dark_blue,size: 30),
+    Icon(Icons.menu_book_outlined,color: EventlyColors.main_dark_blue,size: 30),
     Icon(Icons.directions_bike_outlined,color: EventlyColors.main_dark_blue,size: 30),
     Icon(Icons.cake_outlined,color: EventlyColors.main_dark_blue,size: 30),
     Icon(Icons.meeting_room_outlined,color: EventlyColors.main_dark_blue,size: 30),
@@ -51,13 +49,7 @@ static List<Widget> UnselectedDarkAddEventListViewIcons=[
   Icon(Icons.meeting_room_outlined,color: EventlyColors.main_dark_blue,size: 30),
   Icon(Icons.museum_outlined,color: EventlyColors.main_dark_blue,size: 30)
 ];
-  static List<Widget> listViewItemList=[
-    AllPage(),
-    SportPage(),
-    BirthdayPage(),
-    MeetingPage(),
-    ExhibitionPage(),
-  ];
+
   static List<String> Addimages=[
     EventlyAssets.bookClub,
     EventlyAssets.sport,

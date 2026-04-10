@@ -17,6 +17,8 @@ ThemeData lightTheme = ThemeData(
     displaySmall: EventlyStyles.bold24main,
     headlineLarge: EventlyStyles.regular16grey,
     headlineMedium: EventlyStyles.medium18main,
+    headlineSmall: EventlyStyles.medium16black,
+    labelLarge: EventlyStyles.medium16disable
   )
 );
 ThemeData darkTheme = ThemeData(
@@ -35,5 +37,7 @@ ThemeData darkTheme = ThemeData(
       displaySmall: EventlyStyles.bold24white,
       headlineLarge: EventlyStyles.regular16dark_grey,
       headlineMedium: EventlyStyles.medium18white,
+      headlineSmall: EventlyStyles.medium16main_dark_blue,
+        labelLarge: EventlyStyles.medium16dark_sec
     )
 );

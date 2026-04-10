@@ -4,13 +4,19 @@ import '../../providers/theme_provider.dart';
 import '../../utils/evently_assets.dart';
 import '../../utils/evently_size.dart';
 typedef OnChanged = void Function(String);
+typedef OnValidator = String? Function(String?)? ;
 class CustomedTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String hintText;
   final OnChanged? onChanged;
+  final OnValidator? onValidator;
   final int? maxLines;
   final Color iconColor;
+  TextEditingController? textEditingController;
+  TextInputType textInputType;
+  bool hide;
+  String obscuringCharacter;
 
   CustomedTextFormField({
     super.key,
@@ -20,15 +26,25 @@ class CustomedTextFormField extends StatelessWidget {
     this.onChanged,
     this.maxLines,
     this.iconColor = EventlyColors.disable,
+    this.onValidator,
+    this.textEditingController,
+    this.textInputType=TextInputType.text,
+    this.hide=false,
+    this.obscuringCharacter='*'
   });
 
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return TextFormField(
+      obscuringCharacter: obscuringCharacter,
+      obscureText:hide ,
+      keyboardType:textInputType ,
+      controller:textEditingController ,
       maxLines: maxLines ?? 1,
       style: Theme.of(context).textTheme.bodyMedium,
       onChanged: onChanged,
+      validator:onValidator ,
       decoration: InputDecoration(
         filled: true,
         fillColor: themeProvider.themeMode == ThemeMode.light

@@ -1,19 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../providers/theme_provider.dart';
-import '../../../../utils/evently_assets.dart';
-import '../../../../utils/evently_size.dart';
-
-class SportPage extends StatelessWidget {
-  const SportPage({super.key});
-
+import '../../../models/event.dart';
+import '../../../providers/theme_provider.dart';
+import '../../../utils/evently_assets.dart';
+import '../../../utils/evently_resources.dart';
+import '../../../utils/evently_routes.dart';
+import '../../../utils/evently_size.dart';
+class EventItem extends StatelessWidget {
+final  Event event;
+final Function(Event) onFavouriteToggle;
+ const  EventItem({super.key,required this.event,required this.onFavouriteToggle});
   @override
   Widget build(BuildContext context) {
     var themeProvider=Provider.of<ThemeProvider>(context);
-    return ListView.separated(itemBuilder: (context, index) {
-      return Container(
+  String eventImage=themeProvider.themeMode==ThemeMode.light?EventlyResources.Addimages[event.selectedIndex]:EventlyResources.AddDarkimages[event.selectedIndex];
+    return  GestureDetector(
+      onTap: (){
+        Navigator.of(context).pushNamed(EventlyRoutes.eventDetailsScreen,
+            arguments: event);
+      },
+      child: Container(
         height: context.height*0.3,
         width: context.width*0.3,
         decoration: BoxDecoration(
@@ -21,7 +28,7 @@ class SportPage extends StatelessWidget {
             border:Border.all(
               color: themeProvider.themeMode==ThemeMode.light?EventlyColors.lightStroke:EventlyColors.dark_stroke,
             ),
-            image: DecorationImage(image:themeProvider.themeMode==ThemeMode.light? AssetImage(EventlyAssets.sport): AssetImage(EventlyAssets.dark_sport),
+            image: DecorationImage(image: AssetImage(eventImage),
                 fit: BoxFit.fill)
         ),
         child: Column(
@@ -44,7 +51,7 @@ class SportPage extends StatelessWidget {
                       color: themeProvider.themeMode==ThemeMode.light?EventlyColors.lightStroke:EventlyColors.dark_stroke,
                     )
                 ),
-                child: Text('21_jan'.tr(),
+                child: Text(DateFormat('d MMM').format(event.eventDate),
                   style: Theme.of(context).textTheme.displayLarge,),
               ),
             ),
@@ -70,20 +77,24 @@ class SportPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text('sport_event'.tr(),
+                      child: Text(event.title,
                         maxLines: 4,
                         style: Theme.of(context).textTheme.displayLarge,),
                     ),
-                    Icon(Icons.favorite_outline,color:themeProvider.themeMode==ThemeMode.light?EventlyColors.main_blue:EventlyColors.main_dark_blue,size: 30,)
+                    IconButton(
+                        onPressed: (){
+                          onFavouriteToggle(event);
+                        },
+                        icon: Icon(event.isFavourite?Icons.favorite:
+                          Icons.favorite_outline,
+                          color:themeProvider.themeMode==ThemeMode.light?EventlyColors.main_blue:EventlyColors.main_dark_blue,size: 30,))
                   ],
                 ),
               ),
             )
           ],
         ),
-      );
-    }
-        , separatorBuilder:(context, index) =>  SizedBox(height: context.height*0.03)
-        , itemCount: 10);
+      ),
+    );
   }
 }

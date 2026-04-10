@@ -59,6 +59,11 @@ class EventlyStyles {
      fontWeight: FontWeight.w500,
      color: EventlyColors.main_text
  );
+ static TextStyle medium16main_dark_blue=GoogleFonts.poppins(
+     fontSize: 16,
+     fontWeight: FontWeight.w500,
+     color: EventlyColors.main_dark_blue
+ );
  static TextStyle medium18white=GoogleFonts.poppins(
      fontSize: 18,
      fontWeight: FontWeight.w500,
@@ -96,5 +101,15 @@ class EventlyStyles {
      fontSize: 24,
      fontWeight: FontWeight.bold,
      color: EventlyColors.white_color
+ );
+ static TextStyle medium16disable=GoogleFonts.poppins(
+     fontSize: 16,
+     fontWeight: FontWeight.w500,
+     color: EventlyColors.disable
+ );
+ static TextStyle medium16dark_sec=GoogleFonts.poppins(
+     fontSize: 16,
+     fontWeight: FontWeight.w500,
+     color: EventlyColors.dark_sec_text
  );
 }
